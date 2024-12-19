@@ -7,6 +7,6 @@ class DefaultController extends AppController {
         $this->render('login'); 
     }
     public function projects(){
-        die("projects method");
+        $this->render(template: 'register'); 
     }
 }
