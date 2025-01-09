@@ -2,7 +2,7 @@
 
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="public/css/login.css">
+    <link rel="stylesheet" type="text/css" href="public/css/register.css">
     <title></title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,9 +20,10 @@
             <form class="login-info">
                 <input type="text" id="login" placeholder="LOGIN">
                 <input type="password" id="password" placeholder="HASŁO">
+                <input type="email" id="email" placeholder="E-MAIL">
+                <button>REJESTRACJA</button>
             </form>
-            <button>LOGOWANIE</button>
-            <a href="http://localhost:8080/projects">Stwórz konto</a>
+            <a href="http://localhost:8080/index">Zaloguj się</a>
         </div>
     </div>
 <body>

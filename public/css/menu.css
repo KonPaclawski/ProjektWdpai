@@ -1,0 +1,33 @@
+body {
+    background-color: #171717;
+}
+.menu_left{
+    left:0;
+    width:20vw;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap:3vh;
+}
+
+.menu_left>a{
+    margin-top:3vh;
+    font-size:3em;
+    font-family: "Inter";
+    color:#990B0E;
+    -webkit-text-stroke: 1px #990B0E;
+}
+
+.menu_options{
+    display: flex;
+    flex-direction: row;
+    gap:2vh;
+    align-items: flex-start;
+    left:0;
+}
+
+.menu_options>a{
+    font-size:1.5em;
+    font-family: "Inter";
+    color: #D9D9D9;
+}

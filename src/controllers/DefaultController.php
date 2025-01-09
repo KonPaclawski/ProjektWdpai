@@ -3,10 +3,14 @@
 require_once 'AppController.php';
 
 class DefaultController extends AppController {
-    public function index() {
-        $this->render('login'); 
+    public function login() {
+        $this->render('login');
     }
-    public function projects(){
-        $this->render(template: 'register'); 
+    public function register(){
+        $this->render('register');
+    }
+
+    public function menu(){
+        $this->render('menu');
     }
 }

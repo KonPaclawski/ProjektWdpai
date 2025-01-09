@@ -46,7 +46,7 @@ body {
     border: 2px solid #171717;
 }
 
-.login-container>button{
+button{
     width:10vw;
     height:5vh;
     margin-top:3vh;
