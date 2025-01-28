@@ -17,20 +17,13 @@
         </div>
 
         <div class="login-container">
-            <form class="login-info" action="login_" method="post">
-                <div class="messages">
-                    <?php if(isset($messages)){
-                        foreach($messages as $message) {
-                            echo $message;
-                        }
-                    }
-                    ?>
-                </div>
+            <form class="login-info" action="/login" method="POST">
                 <input type="text" name="login" placeholder="LOGIN">
                 <input type="password" name="password" placeholder="HASŁO">
                 <button type="submit">LOGOWANIE</button>
             </form>
-            <a href="http://localhost:8080/projects">Stwórz konto</a>
+
+            <a href="/register">Stwórz konto</a>
         </div>
     </div>
 <body>

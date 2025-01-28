@@ -1,6 +1,5 @@
 <?php
 
-namespace models;
 
 class User
 {
@@ -8,14 +7,14 @@ class User
     private $password;
     private $login;
 
-    public function __construct(string $email, string $password, string $login)
+    public function __construct($login, $password, $email)
     {
         $this->email = $email;
         $this->password = $password;
         $this->login = $login;
     }
 
-    public function getEmail(): string
+    public function getEmail(): mixed
     {
         return $this->email;
     }
@@ -25,7 +24,7 @@ class User
         $this->email = $email;
     }
 
-    public function getPassword(): string
+    public function getPassword(): mixed
     {
         return $this->password;
     }
@@ -35,7 +34,7 @@ class User
         $this->password = $password;
     }
 
-    public function getLogin(): string
+    public function getLogin(): mixed
     {
         return $this->login;
     }

@@ -1,28 +1,44 @@
 <?php
 
-require_once 'src/controllers/DefaultController.php';
+require_once 'src/controllers/DashboardController.php';
 require_once 'src/controllers/SecurityController.php';
 
 class Routing {
-    public static $routes;
 
-    public static function get($url, $controller){
-        self::$routes[$url] = $controller;
-    }
+    public static function run ($url) {
+        $action = explode("/", $url)[0];
+        $controller = null;
 
-    public static function post($url, $controller){
-        self::$routes[$url] = $controller;
-    }
+        // if (!array_key_exists($action, self::$routes)) {
+        //   die("Wrong url!"); // TODO 404
+        // }
 
-    public static function run($url){
-        $action = explode("/",$url)[0];
-
-        if(!array_key_exists($action,self::$routes)){
-            die("Wrong url!");
+        if(in_array($action, ["menu", ""])) {
+            $controller = "DashboardController";
+            $action = 'dashboard';
         }
-    
-        $controller= self::$routes[$action];
+
+        if(in_array($action, ["api", ""])) {
+
+            $controller = "DashboardController";
+            $action = 'usersEndpoint';
+        }
+
+        if(in_array($action, ["add-user", ""])) {
+            $controller = "DashboardController";
+            $action = 'addUser';
+        }
+
+        if(in_array($action, ["login", ""])) {
+            $controller = "SecurityController";
+            $action = 'login';
+        }
+        if(in_array($action, ["register", ""])) {
+            $controller = "SecurityController";
+            $action = 'register';
+        }
         $object = new $controller;
+        $action = $action ?: 'index';
 
         $object->$action();
     }

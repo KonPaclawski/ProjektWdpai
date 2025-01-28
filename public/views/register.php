@@ -17,13 +17,13 @@
         </div>
 
         <div class="login-container">
-            <form class="login-info">
-                <input type="text" id="login" placeholder="LOGIN">
-                <input type="password" id="password" placeholder="HASŁO">
-                <input type="email" id="email" placeholder="E-MAIL">
+            <form class="login-info" action="/register" method="POST">
+                <input type="text" name="login" placeholder="LOGIN">
+                <input type="password" name="password" placeholder="HASŁO">
+                <input type="email" name="email" placeholder="E-MAIL">
                 <button>REJESTRACJA</button>
             </form>
-            <a href="http://localhost:8080/index">Zaloguj się</a>
+            <a href="/login">Zaloguj się</a>
         </div>
     </div>
 <body>

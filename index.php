@@ -1,13 +1,10 @@
 <?php
 
-require 'Routing.php';
+require_once 'Routing.php';
+require_once 'src/controllers/AppController.php';
+
 
 $path = trim($_SERVER['REQUEST_URI'], '/');
-$path = parse_url($path, PHP_URL_PATH);
-
-Routing::get('login', 'DefaultController');
-Routing::get('register','DefaultController');
-Routing::get('menu','DefaultController');
-Routing::post('login_','SecurityController');
+$path = parse_url( $path, PHP_URL_PATH);
 
 Routing::run($path);
