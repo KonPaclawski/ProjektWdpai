@@ -3,6 +3,7 @@
 require_once 'AppController.php';
 require_once __DIR__.'/../models/User.php';
 require_once __DIR__.'/../repository/UserRepository.php';
+session_start();
 
 class SecurityController extends AppController {
     private $userRepository;
@@ -20,10 +21,14 @@ class SecurityController extends AppController {
         $password = $_POST['password'];
         $email = $_POST['email'];
 
-        // TODO Weryfikacja czy taki użytkownik już istnieje
-
-
+        $users = $this->userRepository->getUsers();
+        foreach($users as $user){
+            if($user->getLogin() == $login || $user->getEmail() == $email){
+                return $this->render("register");
+            }
+        }
         $this->userRepository->addUser(new User($login, $password, $email));
+        $_SESSION['user_login'] = $login;
         return $this->render("menu");
     }
 
@@ -39,12 +44,12 @@ class SecurityController extends AppController {
         $users = $this->userRepository->getUsers();
         foreach($users as $user) {
             if($user->getLogin() == $login && $user->getPassword() == $password) {
-                return $this->render("menu");
+                $_SESSION['user_login'] = $login;
+                $url = "http://$_SERVER[HTTP_HOST]";
+                header("Location: {$url}/menu");
             }
         }
         return $this->render("login");
-        // TODO logowanie usera
-        // password_verify();
 
     }
 

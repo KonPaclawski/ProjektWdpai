@@ -54,7 +54,8 @@ button{
     color: #D9D9D9;
     font-size:1.3em;
     background-color: #700002;
-    border: 1px solid black; 
+    border: 1px solid black;
+    cursor: pointer;
 }
 
 .login-container>a{

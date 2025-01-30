@@ -2,6 +2,7 @@
 
 require_once 'src/controllers/DashboardController.php';
 require_once 'src/controllers/SecurityController.php';
+require_once 'src/controllers/BudgetController.php';
 
 class Routing {
 
@@ -18,17 +19,6 @@ class Routing {
             $action = 'dashboard';
         }
 
-        if(in_array($action, ["api", ""])) {
-
-            $controller = "DashboardController";
-            $action = 'usersEndpoint';
-        }
-
-        if(in_array($action, ["add-user", ""])) {
-            $controller = "DashboardController";
-            $action = 'addUser';
-        }
-
         if(in_array($action, ["login", ""])) {
             $controller = "SecurityController";
             $action = 'login';
@@ -36,6 +26,10 @@ class Routing {
         if(in_array($action, ["register", ""])) {
             $controller = "SecurityController";
             $action = 'register';
+        }
+        if(in_array($action, ["addBudget", ""])) {
+            $controller = "BudgetController";
+            $action = 'addBudget';
         }
         $object = new $controller;
         $action = $action ?: 'index';

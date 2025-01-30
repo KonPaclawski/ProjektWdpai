@@ -10,6 +10,7 @@
     <script src="https://kit.fontawesome.com/c692ed1a4c.js" crossorigin="anonymous"></script>
 
 </head>
+<body>
     <div class="main-container">
         <div class="logo-container">
             <a>BudgetFlow</a>
@@ -26,5 +27,4 @@
             <a href="/register">Stwórz konto</a>
         </div>
     </div>
-<body>
 </body>
