@@ -62,3 +62,15 @@ button{
 .login-container>a{
     color:#D9D9D9
 }
+
+@media (max-width: 600px) {
+
+    .login-info>input{
+        width:70vw;
+        height:6vh;
+    }
+    button{
+        width:70vw;
+        height:6vh;
+    }
+}

@@ -10,30 +10,25 @@ class Routing {
         $action = explode("/", $url)[0];
         $controller = null;
 
-        // if (!array_key_exists($action, self::$routes)) {
-        //   die("Wrong url!"); // TODO 404
-        // }
+        $routes = ['menu'=>['DashboardController', 'dashboard'],'login'=> ['SecurityController', 'login'], 'register'=> ['SecurityController', 'register'],
+            'addBudget'=> ['BudgetController', 'addBudget'], 'budget'=> ['BudgetController', 'budget'],];
 
-        if(in_array($action, ["menu", ""])) {
-            $controller = "DashboardController";
-            $action = 'dashboard';
+        if (!array_key_exists($action, $routes)) {
+            die("");
         }
 
-        if(in_array($action, ["login", ""])) {
-            $controller = "SecurityController";
-            $action = 'login';
-        }
-        if(in_array($action, ["register", ""])) {
-            $controller = "SecurityController";
-            $action = 'register';
-        }
-        if(in_array($action, ["addBudget", ""])) {
-            $controller = "BudgetController";
-            $action = 'addBudget';
-        }
-        $object = new $controller;
-        $action = $action ?: 'index';
+        list($controller, $action) = $routes[$action];
 
-        $object->$action();
+        if (class_exists($controller)) {
+            $object = new $controller();
+            $action = $action ?: 'index';
+            if (method_exists($object, $action)) {
+                $object->$action();
+            } else {
+                die("Action not found in controller");
+            }
+        } else {
+            die("Controller not found");
+        }
     }
 }

@@ -21,10 +21,12 @@ class SecurityController extends AppController {
         $password = $_POST['password'];
         $email = $_POST['email'];
 
-        $users = $this->userRepository->getUsers();
-        foreach($users as $user){
-            if($user->getLogin() == $login || $user->getEmail() == $email){
-                return $this->render("register");
+        if(isset($login)) {
+            $users = $this->userRepository->getUsers();
+            foreach ($users as $user) {
+                if ($user->getLogin() === $login || $user->getEmail() === $email) {
+                    return $this->render("register");
+                }
             }
         }
         $this->userRepository->addUser(new User($login, $password, $email));
@@ -43,7 +45,7 @@ class SecurityController extends AppController {
 
         $users = $this->userRepository->getUsers();
         foreach($users as $user) {
-            if($user->getLogin() == $login && $user->getPassword() == $password) {
+            if($user->getLogin() === $login && $user->getPassword() === $password) {
                 $_SESSION['user_login'] = $login;
                 $url = "http://$_SERVER[HTTP_HOST]";
                 header("Location: {$url}/menu");

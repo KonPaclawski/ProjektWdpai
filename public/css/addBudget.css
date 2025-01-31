@@ -14,17 +14,23 @@ body {
 }
 
 .info-container{
+    margin-top:3vh;
     width:30vw;
     display:flex;
     flex-direction: column;
-    margin-top:20vh;
-    gap:5vh;
+    gap:3vh;
 }
 
-.info-container > input{
+.info-container > a{
+    color:white;
+    font-size: 1.5em;
+}
+
+input{
     height: 4vh;
     border-radius:10px;
     border: 2px solid #171717;
+    width: 30vw;
 }
 
 input::placeholder{
@@ -49,10 +55,66 @@ a{
 button:hover{
     cursor: pointer;
 }
-
+.payment-a{
+    width:30vw;
+    display:flex;
+    flex-direction: row;
+}
 .submit-container{
+    width:31vw;
     display: flex;
     flex-direction: row;
     height:5vh;
 }
 
+.category-container{
+    margin-top:3vh;
+    width:32vw;
+    display:flex;
+    flex-direction: row;
+    gap:1vw;
+}
+
+.category-container > input{
+    width:30vw;
+}
+
+.payment-container{
+    margin-top:3vh;
+    width:32vw;
+    display:flex;
+    flex-direction: row;
+    gap:1vw;
+}
+
+.remove-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+@media (max-width: 600px) {
+    input{
+        width:70vw;
+        margin-left:15vw;
+    }
+    .info-container{
+        width:100vw;
+    }
+    .info-container > a {
+        margin-left: 15vw;
+    }
+    .submit-container {
+        position: fixed;
+        bottom: 0;
+        width: 80%;
+        padding-bottom: 2vh;
+    }
+    .category-container{
+        width:70vw;
+    }
+    .category-container > input {
+        width: 100vw;
+    }
+}

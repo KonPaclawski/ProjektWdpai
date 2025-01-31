@@ -12,6 +12,7 @@
 </head>
 <body>
 <div class="container">
+    <!-- Menu Left -->
     <div class="menu_left">
         <div class="logo_left">
             <a>BudgetFlow</a>
@@ -33,6 +34,7 @@
         </div>
     </div>
 
+    <!-- Budget Container -->
     <div class="budgets-container">
         <?php if (isset($budgets) && count($budgets) > 0): ?>
             <?php foreach ($budgets as $budget): ?>

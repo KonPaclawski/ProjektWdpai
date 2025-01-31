@@ -1,20 +1,15 @@
 <?php
 
 class Budget{
+
     private $title;
     private $budget;
     private $categories;
-    private $titles;
-    private $amount;
-    private $dates;
-    public function __construct($title, $budget, $categories, $titles, $amount, $dates)
+    public function __construct($title, $budget, $categories)
     {
         $this->title = $title;
         $this->budget = $budget;
         $this->categories = $categories;
-        $this->titles = $titles;
-        $this->ammount = $amount;
-        $this->dates = $dates;
     }
 
     public function getTitle()
@@ -42,40 +37,14 @@ class Budget{
         return $this->categories;
     }
 
-    public function setCategories($categories): void
-    {
-        $this->categories = $categories;
+    public function getRemainingBudget(){
+        $x = 0;
+        foreach($this->categories as $payments){
+            foreach ($payments as $payment){
+                $x = $x + $payment["to_pay"];
+            }
+        }
+        return $x;
     }
-
-    public function getTitles()
-    {
-        return $this->titles;
-    }
-
-    public function setTitles($titles): void
-    {
-        $this->titles = $titles;
-    }
-
-    public function getAmount()
-    {
-        return $this->amount;
-    }
-
-    public function setAmount($amount): void
-    {
-        $this->amount = $amount;
-    }
-
-    public function getDates()
-    {
-        return $this->dates;
-    }
-
-    public function setDates($dates): void
-    {
-        $this->dates = $dates;
-    }
-
 
 }

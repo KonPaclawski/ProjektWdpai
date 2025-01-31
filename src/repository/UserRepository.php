@@ -46,18 +46,4 @@ class UserRepository extends Repository {
         $stmt->execute();
     }
 
-    public function addBudget($userLogin, $title, $budget) {
-        $stmt = $this->database->connect()->prepare("
-        INSERT INTO budgets (login, title, budget_amount) VALUES (?, ?, ?)
-    ");
-
-        $stmt->execute([$userLogin, $title, $budget]);
-    }
-
-    public function getBudgetsbyUser($userLogin){
-        $stmt = $this->database->connect()->prepare("SELECT * FROM budgets WHERE login = :userLogin");
-        $stmt->bindParam(':userLogin', $userLogin, PDO::PARAM_STR);
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
 }

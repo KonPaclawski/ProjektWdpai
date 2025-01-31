@@ -1,15 +1,20 @@
 body {
     background-color: #171717;
-    display:flex;
-    flex-direction: row;
+    margin: 0;
+    height: 100vh;
 }
 
-.menu_left{
-    left:0;
-    width:25vw;
-    height:100vh;
-    border-right: #171717 3px;
+.menu_left {
+    width: 25vw;
+    height: 100vh;
+    border-right: 3px solid #171717;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding-left: 2vw;
 }
+
+
 .logo_left{
     width:20vw;
     display: flex;
@@ -28,14 +33,14 @@ body {
     -webkit-text-stroke: 1px #990B0E;
 }
 
-.menu_options{
+.menu_options {
     display: flex;
     flex-direction: row;
-    width:22vw;
-    align-items:center;
-    margin-left:2vw;
-    gap:3vh;
-    margin-bottom:5vh;
+    width: 100%;
+    align-items: center;
+    gap: 3vh;
+    margin-top: 5vh;
+    padding-left: 2vw;
 }
 
 .menu_options>a{
@@ -51,11 +56,12 @@ body {
 
 
 .budgets-container {
+    width: 75vw;
+    height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
-    width:78vw;
-
+    justify-content: center;
 }
 
 .budget-box {
@@ -66,8 +72,66 @@ body {
     align-items: center;
     margin-top:10vh;
     border-radius: 10px;
-    width:40vw;
+    width:30vw;
     height:15vh;
     font-size:1.5em;
+    cursor:pointer;
 }
 
+.options-container{
+    display:flex;
+    flex-direction: column;
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+}
+
+
+
+
+
+@media (max-width: 600px) {
+    .menu_left{
+        width:0;
+        height:100vh;
+        border-right: #171717 3px;
+    }
+    .menu_options > a{
+        font-size:0;
+    }
+    .logo_left{
+        width:100vw;
+    }
+    .options-container {
+        margin-right: 5vw;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        align-items: flex-end;
+        height: 10vh;
+        width: 100vw;
+        position: fixed;
+        bottom: 0;
+    }
+    .budgets-container {
+        width: 100vw;
+        margin-top: 20vh;
+        padding-bottom: 20vh;
+    }
+    .menu_options{
+        display: flex;
+        flex-direction: row;
+        width: 100vw;
+        align-items: center;
+        margin-left:8vw;
+        gap: 10vw;
+        margin-top: 5vh;
+        padding-bottom:2vh;
+    }
+    .budget-box {
+        width:60vw;
+        height:12vh;
+    }
+}

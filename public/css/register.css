@@ -65,3 +65,18 @@ input::placeholder{
     color:#171717;
     font-family: "Inter";
 }
+
+@media (max-width: 600px) {
+    body {
+        font-size: 1em;
+    }
+
+    .login-info>input{
+        width:70vw;
+        height:6vh;
+    }
+    button{
+        width:70vw;
+        height:6vh;
+    }
+}
