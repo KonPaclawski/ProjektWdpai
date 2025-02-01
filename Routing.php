@@ -11,7 +11,7 @@ class Routing {
         $controller = null;
 
         $routes = ['menu'=>['DashboardController', 'dashboard'],'login'=> ['SecurityController', 'login'], 'register'=> ['SecurityController', 'register'],
-            'addBudget'=> ['BudgetController', 'addBudget'], 'budget'=> ['BudgetController', 'budget'],];
+            'addBudget'=> ['BudgetController', 'addBudget'], 'budget'=> ['BudgetController', 'budget'], 'budgetSettings'=> ['BudgetController', 'budgetSettings'],];
 
         if (!array_key_exists($action, $routes)) {
             die("");

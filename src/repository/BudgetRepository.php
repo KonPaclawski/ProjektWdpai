@@ -6,7 +6,6 @@ require_once __DIR__.'/../models/Budget.php';
 class BudgetRepository extends Repository {
 
     public function newBudget($userLogin, $title, $budget, $categories) {
-        // Step 1: Insert the budget into the 'budgets' table
         foreach ($categories as $category) {
             $stmt = $this->database->connect()->prepare("
             INSERT INTO budgets (login, title, budget_amount) 
@@ -17,20 +16,18 @@ class BudgetRepository extends Repository {
             $stmt->bindParam(':budget_amount', $budget, PDO::PARAM_STR);
             $stmt->execute();
         }
-
-        foreach ($categories as $category) {
-            $stmt = $this->database->connect()->prepare("
+        $stmt = $this->database->connect()->prepare("
             SELECT id_bud FROM budgets WHERE login = :login AND title = :title
         ");
-            $stmt->bindParam(':login', $userLogin, PDO::PARAM_STR);
-            $stmt->bindParam(':title', $title, PDO::PARAM_STR);
-            $stmt->execute();
+        $stmt->bindParam(':login', $userLogin, PDO::PARAM_STR);
+        $stmt->bindParam(':title', $title, PDO::PARAM_STR);
+        $stmt->execute();
 
-            $idData = $stmt->fetch(PDO::FETCH_ASSOC);
-            if ($idData) {
-                $id_bud = $idData['id_bud'];
-
-                foreach ($category['payments'] as $payment) {
+        $idData = $stmt->fetch(PDO::FETCH_ASSOC);
+        if ($idData) {
+            $id_bud = $idData['id_bud'];
+        foreach ($categories as $category) {
+            foreach ($category['payments'] as $payment) {
                     $stmtCategory = $this->database->connect()->prepare("
                     INSERT INTO category (title_payment, to_pay, pay_date, id_cat, category_name)
                     VALUES (:title_payment, :to_pay, :pay_date, :id_cat, :category_name)
@@ -42,6 +39,7 @@ class BudgetRepository extends Repository {
                     $stmtCategory->bindParam(':category_name', $category['name'], PDO::PARAM_STR);
                     $stmtCategory->execute();
                 }
+            $id_bud = $id_bud + 1;
             }
         }
 
@@ -88,7 +86,85 @@ class BudgetRepository extends Repository {
                     'pay_date' => $category['pay_date']
                 ];
             }
-            return $categoriesForCategoryNames;
+        }
+        return $categoriesForCategoryNames;
+    }
+
+    public function updateBudget($budget_current, $usun_kategorie)
+    {
+        $stmt = $this->database->connect()->prepare("
+        SELECT b.id_bud FROM budgets b 
+        JOIN category c ON b.id_bud = c.id_cat 
+        WHERE b.title = :title AND c.category_name = :category_name
+    ");
+        $stmt->bindParam(':title', $budget_current, PDO::PARAM_STR);
+        $stmt->bindParam(':category_name', $usun_kategorie, PDO::PARAM_STR);
+        $stmt->execute();
+
+        $ids = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
+        if (empty($ids)) {
+            return;
+        }
+        $idList = implode(',', $ids);
+
+        $stmt = $this->database->connect()->prepare("
+        DELETE FROM category WHERE id_cat IN ($idList)
+    ");
+        $stmt->execute();
+
+        $stmt = $this->database->connect()->prepare("
+        DELETE FROM budgets WHERE id_bud IN ($idList)
+    ");
+        $stmt->execute();
+    }
+
+    public function addBudget($user,$title,$budget_current,$category,$payment_title,$payment_amount,$payment_date)
+    {
+        $stmt = $this->database->connect()->prepare("
+        SELECT category_name FROM category WHERE category_name = :category_name");
+        $stmt->bindParam(':category_name', $category, PDO::PARAM_STR);
+        $stmt->execute();
+
+        $categories = $stmt->fetchAll(PDO::FETCH_COLUMN);
+        if (in_array($category, $categories)) {
+            $stmt = $this->database->connect()->prepare("
+        SELECT id_cat FROM category WHERE category_name = :category_name");
+            $stmt->bindParam(':category_name', $category, PDO::PARAM_STR);
+            $stmt->execute();
+            $id = $stmt->fetch(PDO::FETCH_COLUMN);
+            $stmt = $this->database->connect()->prepare("INSERT INTO category (title_payment, to_pay, pay_date, id_cat, category_name) 
+                                                                Values (:title_payment, :to_pay, :pay_date, :id_cat, :category_name)");
+            $stmt->bindParam(':title_payment', $payment_title, PDO::PARAM_STR);
+            $stmt->bindParam(':to_pay', $payment_amount, PDO::PARAM_STR);
+            $stmt->bindParam(':pay_date', $payment_date, PDO::PARAM_STR);
+            $stmt->bindParam(':id_cat', $id, PDO::PARAM_INT);
+            $stmt->bindParam(':category_name', $category, PDO::PARAM_STR);
+            $stmt->execute();
+        }
+        else{
+            $stmt = $this->database->connect()->prepare("SELECT budget_amount FROM budgets WHERE login = :login AND title = :title");
+            $stmt->bindParam(':login', $login, PDO::PARAM_STR);
+            $stmt->bindParam(':title', $title, PDO::PARAM_STR);
+            $stmt->execute();
+            $budget = $stmt->fetch(PDO::FETCH_ASSOC);
+            $stmt = $this->database->connect()->prepare("INSERT INTO budgets (login, title,budget_amount) Values (:login, :title, :budget)");
+            $stmt->bindParam(':login', $user, PDO::PARAM_STR);
+            $stmt->bindParam(':title', $title, PDO::PARAM_STR);
+            $stmt->bindParam(':budget', $budget, PDO::PARAM_INT);
+            $stmt->execute();
+            $stmt = $this->database->connect()->prepare("SELECT id_bud FROM budgets ORDER BY id_bud DESC LIMIT 1;");
+            $stmt->execute();
+            $id = $stmt->fetch(PDO::FETCH_COLUMN);
+            $stmt = $this->database->connect()->prepare("INSERT INTO category (title_payment, to_pay, pay_date,id_cat, category_name)
+                                                                Values(:title_payment, :to_pay, :pay_date, :id_cat, :category_name)");
+            $stmt->bindParam(':title_payment', $payment_title, PDO::PARAM_STR);
+            $stmt->bindParam(':to_pay', $payment_amount, PDO::PARAM_STR);
+            $stmt->bindParam(':pay_date', $payment_date, PDO::PARAM_STR);
+            $stmt->bindParam(':id_cat', $id, PDO::PARAM_INT);
+            $stmt->bindParam(':category_name', $category, PDO::PARAM_STR);
+            $stmt->execute();
         }
     }
+
 }

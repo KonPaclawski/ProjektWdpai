@@ -12,7 +12,6 @@ class UserRepository extends Repository {
 
         $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        // TODO return object, you can use FETCH_CLASS to avoid iterator with foreach
         $usersResponse = [];
         foreach($users as $user) {
             $usersResponse[] =  new User(

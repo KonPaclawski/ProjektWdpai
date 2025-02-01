@@ -1,10 +1,10 @@
-let categoriesData = []; // Declare the categoriesData globally
+let categoriesData = [];
 
 function collectData() {
-    categoriesData = []; // Reset the categoriesData array
+    categoriesData = [];
 
     const categoryGroups = document.querySelectorAll('.category-group');
-    console.log("Category Groups:", categoryGroups); // Check if categories are present
+    console.log("Category Groups:", categoryGroups);
 
     categoryGroups.forEach(categoryGroup => {
         const categoryName = categoryGroup.querySelector('input[name="category"]').value;
@@ -29,19 +29,18 @@ function collectData() {
         });
     });
 
-    console.log("Categories Data:", categoriesData); // Debugging log
+    console.log("Categories Data:", categoriesData);
 }
 
 
 
-// Ensure this function exists in budgetDataTransfer.js
 function sendDataToPHP() {
-    collectData(); // Collect the data first
+    collectData();
 
     const data = {
         categories: categoriesData,
-        tytul: document.querySelector('input[name="tytul"]').value, // Add title
-        budget: document.querySelector('input[name="budget_amount"]').value // Add budget
+        tytul: document.querySelector('input[name="tytul"]').value,
+        budget: document.querySelector('input[name="budget_amount"]').value
     };
 
     fetch('/addBudget', {
@@ -51,7 +50,7 @@ function sendDataToPHP() {
         },
         body: JSON.stringify(data)
     })
-        .then(response => response.json())  // Parse the response as JSON
+        .then(response => response.json())
 }
 
 

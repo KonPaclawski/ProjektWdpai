@@ -17,19 +17,15 @@
         <i class="fa-solid fa-credit-card fa-5x" style="color: #630000;"></i>
     </div>
     <div class="menu_options">
-        <i class="fa-solid fa-calendar fa-3x" style="color: #630000;"></i>
-        <a>Kalendarz</a>
+        <i class="fa-solid fa-gear fa-3x" style="color: #630000" onclick="window.location.href='/budgetSettings'"></i>
+        <a href="/budgetSettings">Ustawienia</a>
     </div>
     <div class="menu_options">
-        <i class="fa-solid fa-gear fa-3x" style="color: #630000"></i>
-        <a>Ustawienia</a>
-    </div>
-    <div class="menu_options">
-        <i class="fa-solid fa-circle-plus fa-3x" style="color: #630000"></i>
+        <i class="fa-solid fa-circle-plus fa-3x" style="color: #630000" onclick="window.location.href='/addBudget'"></i>
         <a href="/addBudget">Nowy budżet</a>
     </div>
     <div class="menu_options">
-        <i class="fa-solid fa-right-from-bracket fa-3x" style="color: #630000"></i>
+        <i class="fa-solid fa-right-from-bracket fa-3x" style="color: #630000" onclick="window.location.href='/menu'"></i>
         <a href="/menu">Powrót</a>
     </div>
 </div>
@@ -53,6 +49,6 @@
             </div>
         <?php endforeach; ?>
     <?php endforeach; ?>
-    </div>S
+    </div>
 </div>
 </body>

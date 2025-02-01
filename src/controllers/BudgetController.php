@@ -24,10 +24,8 @@ class BudgetController extends AppController
         header('Content-Type: application/json');
 
         $input = file_get_contents("php://input");
-        error_log('Raw POST data: ' . $input);  // Log raw input
 
         $data = json_decode($input, true);
-        error_log('Decoded JSON: ' . print_r($data, true));
 
         if ($data) {
             $categories = $data['categories'];
@@ -81,5 +79,28 @@ class BudgetController extends AppController
         $amount = $amountValue[0]['budget_amount'];
         $budget_current = new Budget($title, $amount,$categories);
         return $this->render("budget",["budget_current" => $budget_current]);
+    }
+
+    public function budgetSettings(){
+        $budget_current = $_SESSION['title'];
+        if ($this->isGet()) {
+            return $this->render("budgetSettings");
+        }
+        if ($_POST['action'] == 'usun') {
+            $usun_kategorie = $_POST['usun'];
+            $this->budgetRepository->updateBudget($budget_current, $usun_kategorie);
+        }
+        else if ($_POST['action'] == 'add') {
+            $category = $_POST['category'];
+            $payment_title = $_POST['payment_title'];
+            $payment_amount = $_POST['payment_amount'];
+            $payment_date = $_POST['payment_date'];
+            $user = $_SESSION['user_login'];
+            $title = $_SESSION['title'];
+            $this->budgetRepository->addBudget($user,$title,$budget_current, $category, $payment_title, $payment_amount, $payment_date);
+        }
+
+        return $this->render("budgetSettings");
+
     }
 }

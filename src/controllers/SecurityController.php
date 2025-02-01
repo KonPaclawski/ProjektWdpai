@@ -12,22 +12,24 @@ class SecurityController extends AppController {
         $this->userRepository = new UserRepository();
     }
     public function register(){
-        // password_hash($password, PASSWORD_BCRYPT);
+
         if($this->isGet()) {
             return $this->render("register");
         }
 
         $login = $_POST['login'];
-        $password = $_POST['password'];
         $email = $_POST['email'];
-
-        if(isset($login)) {
+        $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+        if(isset($login) && mb_strlen(trim($login)) !== 0)  {
             $users = $this->userRepository->getUsers();
             foreach ($users as $user) {
                 if ($user->getLogin() === $login || $user->getEmail() === $email) {
                     return $this->render("register");
                 }
             }
+        }
+        else{
+            return $this->render("register");
         }
         $this->userRepository->addUser(new User($login, $password, $email));
         $_SESSION['user_login'] = $login;
@@ -45,7 +47,7 @@ class SecurityController extends AppController {
 
         $users = $this->userRepository->getUsers();
         foreach($users as $user) {
-            if($user->getLogin() === $login && $user->getPassword() === $password) {
+            if($user->getLogin() === $login && password_verify($password, $user->getPassword())) {
                 $_SESSION['user_login'] = $login;
                 $url = "http://$_SERVER[HTTP_HOST]";
                 header("Location: {$url}/menu");

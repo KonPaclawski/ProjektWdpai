@@ -4,12 +4,12 @@ class Budget{
 
     private $title;
     private $budget;
-    private $categories;
-    public function __construct($title, $budget, $categories)
+    private $category;
+    public function __construct($title, $budget, $category)
     {
         $this->title = $title;
         $this->budget = $budget;
-        $this->categories = $categories;
+        $this->category = $category;
     }
 
     public function getTitle()
@@ -34,12 +34,15 @@ class Budget{
 
     public function getCategories()
     {
-        return $this->categories;
+        return $this->category;
     }
-
+    public function setCategories($categories)
+    {
+        $this->category = $categories;
+    }
     public function getRemainingBudget(){
         $x = 0;
-        foreach($this->categories as $payments){
+        foreach($this->category as $payments){
             foreach ($payments as $payment){
                 $x = $x + $payment["to_pay"];
             }

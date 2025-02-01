@@ -19,10 +19,6 @@
         </div>
         <div class="options-container">
             <div class="menu_options">
-                <i class="fa-solid fa-calendar fa-3x" style="color: #630000;"></i>
-                <a>Kalendarz</a>
-            </div>
-            <div class="menu_options">
                 <i class="fa-solid fa-circle-plus fa-3x"  style="color: #630000" onclick="window.location.href='/addBudget'"></i>
                 <a href="/addBudget">Nowy budżet</a>
             </div>
