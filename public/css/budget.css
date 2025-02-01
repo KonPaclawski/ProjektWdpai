@@ -103,3 +103,30 @@ body {
     margin-bottom:5vh;
 }
 
+@media (max-width: 600px) {
+    .menu_options > a{
+        font-size:0;
+    }
+    .logo_left{
+        width:100vw;
+    }
+    .budgets-container{
+        margin-top:25vh;
+        width:90vw;
+    }
+    .payments-container{
+        width:30vw;
+        height:8vh;
+    }
+    .date-container{
+        width:30vw;
+        height:8vh;
+    }
+    .category-container{
+        width:60vw;
+        height:12vh;
+    }
+    .menu_left{
+        width:10vw;
+    }
+}

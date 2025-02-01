@@ -6,18 +6,21 @@ require_once __DIR__.'/../models/Budget.php';
 class BudgetRepository extends Repository {
 
     public function newBudget($userLogin, $title, $budget, $categories) {
+        foreach($categories as $category) {
+            $stmt = $this->database->connect()->prepare("
+            INSERT INTO budgets (login, title, budget_amount) 
+            VALUES (:login, :title, :budget_amount)
+        ");
+            $stmt->bindParam(':login', $userLogin, PDO::PARAM_STR);
+            $stmt->bindParam(':title', $title, PDO::PARAM_STR);
+            $stmt->bindParam(':budget_amount', $budget, PDO::PARAM_STR);
+            $stmt->execute();
+        }
         $stmt = $this->database->connect()->prepare("
-        INSERT INTO budgets (login, title, budget_amount) 
-        VALUES (:login, :title, :budget_amount)
-    ");
-        $stmt->bindParam(':login', $userLogin, PDO::PARAM_STR);
-        $stmt->bindParam(':title', $title, PDO::PARAM_STR);
-        $stmt->bindParam(':budget_amount', $budget, PDO::PARAM_STR);
-        $stmt->execute();
-
-        $stmt = $this->database->connect()->prepare("
-        SELECT id_bud FROM budgets WHERE login = :login AND title = :title
-    ");
+        SELECT id_bud FROM budgets 
+        WHERE login = :login AND title = :title
+        ORDER BY id_bud DESC LIMIT 1
+");
         $stmt->bindParam(':login', $userLogin, PDO::PARAM_STR);
         $stmt->bindParam(':title', $title, PDO::PARAM_STR);
         $stmt->execute();
@@ -27,6 +30,8 @@ class BudgetRepository extends Repository {
             $id_bud = $idData['id_bud'];
 
             foreach ($categories as $category) {
+                $categoryName = $category['name'];
+
                 foreach ($category['payments'] as $payment) {
                     $stmtCategory = $this->database->connect()->prepare("
                     INSERT INTO category (title_payment, to_pay, pay_date, id_cat, category_name)
@@ -36,12 +41,14 @@ class BudgetRepository extends Repository {
                     $stmtCategory->bindParam(':to_pay', $payment['amount'], PDO::PARAM_STR);
                     $stmtCategory->bindParam(':pay_date', $payment['date'], PDO::PARAM_STR);
                     $stmtCategory->bindParam(':id_cat', $id_bud, PDO::PARAM_INT);
-                    $stmtCategory->bindParam(':category_name', $category['name'], PDO::PARAM_STR);
+                    $stmtCategory->bindParam(':category_name', $categoryName, PDO::PARAM_STR);
                     $stmtCategory->execute();
                 }
+                $id_bud = $id_bud-1;
             }
         }
     }
+
 
 
     public function getBudgetsbyUser($userLogin) {
@@ -90,29 +97,26 @@ class BudgetRepository extends Repository {
     public function updateBudget($budget_current, $usun_kategorie)
     {
         $stmt = $this->database->connect()->prepare("
-        SELECT b.id_bud FROM budgets b 
-        JOIN category c ON b.id_bud = c.id_cat 
+        SELECT c.id_cat 
+        FROM budgets b 
+        JOIN category c ON b.id_bud = c.id_cat
         WHERE b.title = :title AND c.category_name = :category_name
+        LIMIT 1
     ");
         $stmt->bindParam(':title', $budget_current, PDO::PARAM_STR);
         $stmt->bindParam(':category_name', $usun_kategorie, PDO::PARAM_STR);
         $stmt->execute();
 
-        $ids = $stmt->fetchAll(PDO::FETCH_COLUMN);
+        $id = $stmt->fetchColumn();  // Fetch a single id_cat
 
-        if (empty($ids)) {
-            return;
+        if (!$id) {
+            return;  // No category found, exit function
         }
-        $idList = implode(',', $ids);
 
         $stmt = $this->database->connect()->prepare("
-        DELETE FROM category WHERE id_cat IN ($idList)
+        DELETE FROM category WHERE id_cat = :id_cat
     ");
-        $stmt->execute();
-
-        $stmt = $this->database->connect()->prepare("
-        DELETE FROM budgets WHERE id_bud IN ($idList)
-    ");
+        $stmt->bindParam(':id_cat', $id, PDO::PARAM_INT);
         $stmt->execute();
     }
 
