@@ -6,19 +6,18 @@ require_once __DIR__.'/../models/Budget.php';
 class BudgetRepository extends Repository {
 
     public function newBudget($userLogin, $title, $budget, $categories) {
-        foreach ($categories as $category) {
-            $stmt = $this->database->connect()->prepare("
-            INSERT INTO budgets (login, title, budget_amount) 
-            VALUES (:login, :title, :budget_amount)
-        ");
-            $stmt->bindParam(':login', $userLogin, PDO::PARAM_STR);
-            $stmt->bindParam(':title', $title, PDO::PARAM_STR);
-            $stmt->bindParam(':budget_amount', $budget, PDO::PARAM_STR);
-            $stmt->execute();
-        }
         $stmt = $this->database->connect()->prepare("
-            SELECT id_bud FROM budgets WHERE login = :login AND title = :title
-        ");
+        INSERT INTO budgets (login, title, budget_amount) 
+        VALUES (:login, :title, :budget_amount)
+    ");
+        $stmt->bindParam(':login', $userLogin, PDO::PARAM_STR);
+        $stmt->bindParam(':title', $title, PDO::PARAM_STR);
+        $stmt->bindParam(':budget_amount', $budget, PDO::PARAM_STR);
+        $stmt->execute();
+
+        $stmt = $this->database->connect()->prepare("
+        SELECT id_bud FROM budgets WHERE login = :login AND title = :title
+    ");
         $stmt->bindParam(':login', $userLogin, PDO::PARAM_STR);
         $stmt->bindParam(':title', $title, PDO::PARAM_STR);
         $stmt->execute();
@@ -26,8 +25,9 @@ class BudgetRepository extends Repository {
         $idData = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($idData) {
             $id_bud = $idData['id_bud'];
-        foreach ($categories as $category) {
-            foreach ($category['payments'] as $payment) {
+
+            foreach ($categories as $category) {
+                foreach ($category['payments'] as $payment) {
                     $stmtCategory = $this->database->connect()->prepare("
                     INSERT INTO category (title_payment, to_pay, pay_date, id_cat, category_name)
                     VALUES (:title_payment, :to_pay, :pay_date, :id_cat, :category_name)
@@ -39,11 +39,8 @@ class BudgetRepository extends Repository {
                     $stmtCategory->bindParam(':category_name', $category['name'], PDO::PARAM_STR);
                     $stmtCategory->execute();
                 }
-            $id_bud = $id_bud + 1;
             }
         }
-
-        return ['status' => 'success', 'message' => 'Budget and categories added successfully'];
     }
 
 

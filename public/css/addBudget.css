@@ -117,4 +117,7 @@ button:hover{
     .category-container > input {
         width: 100vw;
     }
+    .main-container{
+        padding-bottom: 10vh;
+    }
 }

@@ -63,6 +63,11 @@ button{
     color:#D9D9D9
 }
 
+input::placeholder{
+    color:#171717;
+    font-family: "Inter";
+}
+
 @media (max-width: 600px) {
 
     .login-info>input{

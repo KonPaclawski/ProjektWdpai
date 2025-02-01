@@ -24,7 +24,7 @@ class SecurityController extends AppController {
             $users = $this->userRepository->getUsers();
             foreach ($users as $user) {
                 if ($user->getLogin() === $login || $user->getEmail() === $email) {
-                    return $this->render("register");
+                    return $this->render("register",['messages' => ['Istnieje taki uzytkownik lub e-mail!']]);
                 }
             }
         }
@@ -33,6 +33,8 @@ class SecurityController extends AppController {
         }
         $this->userRepository->addUser(new User($login, $password, $email));
         $_SESSION['user_login'] = $login;
+        $role = $this->userRepository->getRole($login);
+        $_SESSION['role'] = $role;
         return $this->render("menu");
     }
 
@@ -49,11 +51,13 @@ class SecurityController extends AppController {
         foreach($users as $user) {
             if($user->getLogin() === $login && password_verify($password, $user->getPassword())) {
                 $_SESSION['user_login'] = $login;
+                $role = $this->userRepository->getRole($login);
+                $_SESSION['role'] = $role;
                 $url = "http://$_SERVER[HTTP_HOST]";
                 header("Location: {$url}/menu");
             }
         }
-        return $this->render("login");
+        return $this->render("login",['messages' => ['Błędny login lub hasło']]);
 
     }
 

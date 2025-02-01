@@ -22,6 +22,13 @@
                 <input type="text" name="login" placeholder="LOGIN">
                 <input type="password" name="password" placeholder="HASŁO">
                 <button type="submit">LOGOWANIE</button>
+                <?php
+                if(isset($messages)){
+                    foreach($messages as $message) {
+                        echo $message;
+                    }
+                }
+                ?>
             </form>
 
             <a href="/register">Stwórz konto</a>

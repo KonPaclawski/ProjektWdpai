@@ -39,15 +39,13 @@ class BudgetController extends AppController
                     $paymentTitle = $payment['title'];
                     $paymentAmount = $payment['amount'];
                     $paymentDate = $payment['date'];
-
                 }
             }
-
             $userLogin = $_SESSION['user_login'];
             $this->budgetRepository->newBudget($userLogin, $tytul, $budget, $categories);
-
             exit;
-        } else {
+        }
+            else {
             exit;
         }
     }

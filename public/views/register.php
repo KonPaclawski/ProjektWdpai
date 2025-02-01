@@ -23,6 +23,13 @@
                 <input type="password" name="password" placeholder="HASŁO">
                 <input type="email" name="email" placeholder="E-MAIL">
                 <button>REJESTRACJA</button>
+                <?php
+                if(isset($messages)){
+                    foreach($messages as $message) {
+                        echo $message;
+                    }
+                }
+                ?>
             </form>
             <a href="/login">Zaloguj się</a>
         </div>

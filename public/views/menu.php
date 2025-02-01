@@ -23,6 +23,10 @@
                 <a href="/addBudget">Nowy budżet</a>
             </div>
             <div class="menu_options">
+                <i class="fa-solid fa-gear fa-3x" style="color: #630000" onclick="window.location.href='/settings'"></i>
+                <a href="/settings">Ustawienia</a>
+            </div>
+            <div class="menu_options">
                 <i class="fa-solid fa-right-from-bracket fa-3x" style="color: #630000" onclick="window.location.href='/login'"></i>
                 <a href="/login">Wyloguj się</a>
             </div>

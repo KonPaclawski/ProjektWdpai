@@ -102,6 +102,9 @@ body {
     .menu_options > a{
         font-size:0;
     }
+    .main-container{
+        padding-bottom:10vh;
+    }
     .logo_left{
         width:100vw;
     }
@@ -117,7 +120,6 @@ body {
     }
     .budgets-container {
         width: 100vw;
-        margin-top: 20vh;
         padding-bottom: 20vh;
     }
     .menu_options{

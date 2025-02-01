@@ -4,7 +4,6 @@ function collectData() {
     categoriesData = [];
 
     const categoryGroups = document.querySelectorAll('.category-group');
-    console.log("Category Groups:", categoryGroups);
 
     categoryGroups.forEach(categoryGroup => {
         const categoryName = categoryGroup.querySelector('input[name="category"]').value;
